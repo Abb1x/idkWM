@@ -1,0 +1,43 @@
+Build started at 2021-01-27T19:27:40.402369
+Main binary: /usr/bin/python3.8
+Build Options: -Dbackend=ninja
+Python system: Linux
+The Meson build system
+Version: 0.55.3
+Source dir: /home/abbix/Documents/Projects/idkWM/src
+Build dir: /home/abbix/Documents/Projects/idkWM/build
+Build type: native build
+None of 'PKG_CONFIG_PATH' are defined in the environment, not changing global flags.
+None of 'PKG_CONFIG_PATH' are defined in the environment, not changing global flags.
+Project name: idkWM
+Project version: undefined
+C++ compiler for the build machine: ccache c++ (gcc 9.3.0 "c++ (Gentoo 9.3.0-r2 p4) 9.3.0")
+C++ linker for the build machine: c++ ld.bfd 2.34
+None of 'AR' are defined in the environment, not changing global flags.
+C++ compiler for the host machine: ccache c++ (gcc 9.3.0 "c++ (Gentoo 9.3.0-r2 p4) 9.3.0")
+C++ linker for the host machine: c++ ld.bfd 2.34
+None of 'AR' are defined in the environment, not changing global flags.
+Build machine cpu family: x86_64
+Build machine cpu: x86_64
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Target machine cpu family: x86_64
+Target machine cpu: x86_64
+Build targets in project: 2
+
+Found ninja-1.10.1 at /usr/bin/ninja
+Running compile:
+Working directory:  /home/abbix/Documents/Projects/idkWM/build/meson-private/tmp2t70guib
+Command line:  ccache c++ /home/abbix/Documents/Projects/idkWM/build/meson-private/tmp2t70guib/testfile.cpp -o /home/abbix/Documents/Projects/idkWM/build/meson-private/tmp2t70guib/output.obj -pipe -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive --print-search-dirs 
+
+Code:
+ 
+Compiler stdout:
+ install: /usr/lib/gcc/x86_64-pc-linux-gnu/9.3.0/
+programs: =/usr/libexec/gcc/x86_64-pc-linux-gnu/9.3.0/:/usr/libexec/gcc/x86_64-pc-linux-gnu/9.3.0/:/usr/libexec/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/9.3.0/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/9.3.0/../../../../x86_64-pc-linux-gnu/bin/x86_64-pc-linux-gnu/9.3.0/:/usr/lib/gcc/x86_64-pc-linux-gnu/9.3.0/../../../../x86_64-pc-linux-gnu/bin/
+libraries: =/usr/lib/gcc/x86_64-pc-linux-gnu/9.3.0/:/usr/lib/gcc/x86_64-pc-linux-gnu/9.3.0/../../../../x86_64-pc-linux-gnu/lib/x86_64-pc-linux-gnu/9.3.0/:/usr/lib/gcc/x86_64-pc-linux-gnu/9.3.0/../../../../x86_64-pc-linux-gnu/lib/../lib64/:/usr/lib/gcc/x86_64-pc-linux-gnu/9.3.0/../../../x86_64-pc-linux-gnu/9.3.0/:/usr/lib/gcc/x86_64-pc-linux-gnu/9.3.0/../../../../lib64/:/lib/x86_64-pc-linux-gnu/9.3.0/:/lib/../lib64/:/usr/lib/x86_64-pc-linux-gnu/9.3.0/:/usr/lib/../lib64/:/usr/lib/gcc/x86_64-pc-linux-gnu/9.3.0/../../../../x86_64-pc-linux-gnu/lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/9.3.0/../../../:/lib/:/usr/lib/
+
+Compiler stderr:
+ 
+None of 'STRIP' are defined in the environment, not changing global flags.
+None of 'STRIP' are defined in the environment, not changing global flags.

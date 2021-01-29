@@ -1,0 +1,32 @@
+[
+  {
+    "directory": "/home/abbix/Documents/Projects/idkWM/build",
+    "command": "ccache c++ -IidkWM.p -I. -I../src -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -g -MD -MQ idkWM.p/main.cpp.o -MF idkWM.p/main.cpp.o.d -o idkWM.p/main.cpp.o -c ../src/main.cpp",
+    "file": "../src/main.cpp",
+    "output": "idkWM.p/main.cpp.o"
+  },
+  {
+    "directory": "/home/abbix/Documents/Projects/idkWM/build",
+    "command": "ccache c++ -IidkWM.p -I. -I../src -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -g -MD -MQ idkWM.p/idkWM_idkWM.cpp.o -MF idkWM.p/idkWM_idkWM.cpp.o.d -o idkWM.p/idkWM_idkWM.cpp.o -c ../src/idkWM/idkWM.cpp",
+    "file": "../src/idkWM/idkWM.cpp",
+    "output": "idkWM.p/idkWM_idkWM.cpp.o"
+  },
+  {
+    "directory": "/home/abbix/Documents/Projects/idkWM/build",
+    "command": "ccache c++ -IidkWM.p -I. -I../src -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -g -MD -MQ idkWM.p/idkWM_events.cpp.o -MF idkWM.p/idkWM_events.cpp.o.d -o idkWM.p/idkWM_events.cpp.o -c ../src/idkWM/events.cpp",
+    "file": "../src/idkWM/events.cpp",
+    "output": "idkWM.p/idkWM_events.cpp.o"
+  },
+  {
+    "directory": "/home/abbix/Documents/Projects/idkWM/build",
+    "command": "ccache c++ -IidkWM.p -I. -I../src -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -g -MD -MQ idkWM.p/idkWM_log.cpp.o -MF idkWM.p/idkWM_log.cpp.o.d -o idkWM.p/idkWM_log.cpp.o -c ../src/idkWM/log.cpp",
+    "file": "../src/idkWM/log.cpp",
+    "output": "idkWM.p/idkWM_log.cpp.o"
+  },
+  {
+    "directory": "/home/abbix/Documents/Projects/idkWM/build",
+    "command": "ccache c++ -IidkWM.p -I. -I../src -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -g -MD -MQ idkWM.p/.._lib_json.cpp.o -MF idkWM.p/.._lib_json.cpp.o.d -o idkWM.p/.._lib_json.cpp.o -c ../lib/json.cpp",
+    "file": "../lib/json.cpp",
+    "output": "idkWM.p/.._lib_json.cpp.o"
+  }
+]
