@@ -82,8 +82,8 @@ void wm::init()
     log("idkWM initialized!");
 
     // Parse the config
-    // std::ifstream config_file((std::string)getenv("HOME") + "/.config/idkWM/config.json");
-    std::ifstream config_file("../config.json");
+    std::ifstream config_file((std::string)getenv("HOME") + "/.config/idkWM/config.json");
+    //std::ifstream config_file("../config.json");
     std::string line;
     std::string final;
 
