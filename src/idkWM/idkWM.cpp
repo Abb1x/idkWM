@@ -211,10 +211,10 @@ void wm::frame_window(Window window)
     XGrabButton(
         current_display,
         Button1,
-        AnyModifier,
+        Mod4Mask,
         window,
         false,
-        ButtonPressMask | ButtonReleaseMask | ButtonMotionMask,
+        ButtonPressMask | ButtonReleaseMask | PointerMotionMask,
         GrabModeAsync,
         GrabModeAsync,
         None,
@@ -223,10 +223,10 @@ void wm::frame_window(Window window)
     XGrabButton(
         current_display,
         Button3,
-        AnyModifier,
+        Mod4Mask,
         window,
         false,
-        ButtonPressMask | ButtonReleaseMask | ButtonMotionMask,
+        ButtonPressMask | ButtonReleaseMask | PointerMotionMask,
         GrabModeAsync,
         GrabModeAsync,
         None,
@@ -262,6 +262,7 @@ void wm::handle_event(XEvent event)
         break;
 
     case ButtonRelease:
+        events::button_release(event.xbutton);
         break;
     case MotionNotify:
         while (XCheckTypedWindowEvent(current_display, event.xmotion.window, MotionNotify, &event))

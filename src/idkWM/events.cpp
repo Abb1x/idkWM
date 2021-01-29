@@ -64,9 +64,10 @@ bool events::button_event(const XButtonEvent &event)
     XRaiseWindow(wm::get()->get_display(), target);
 
     XGetWindowAttributes(wm::get()->get_display(), target, &wm::get()->last_focused_window);
-
     return true;
 }
+
+bool events::button_release(const XButtonEvent &event) { return true; };
 bool events::motion(const XMotionEvent &event)
 {
     position final = {event.x_root, event.y_root};
