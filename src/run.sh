@@ -5,6 +5,5 @@ xinit ../.xinit_test -- \
     "$XEPHYR" \
         :100 \
         -ac \
-        -screen 1200x700 \
-        -host-cursor
+        -screen 1200x700
 

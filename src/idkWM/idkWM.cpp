@@ -103,6 +103,43 @@ void wm::init()
 
     BORDER_COLOR = std::stoul(border_color_str.c_str(), nullptr, 0);
     BORDER_WIDTH = std::stoi(border_width_str.c_str(), nullptr, 0);
+
+    // Set keybindings
+    XGrabKey(
+        current_display,
+        XKeysymToKeycode(current_display, XK_r),
+        Mod4Mask,
+        main_window,
+        false,
+        GrabModeAsync,
+        GrabModeAsync);
+
+    XGrabKey(
+        current_display,
+        XKeysymToKeycode(current_display, XK_t),
+        ControlMask | Mod1Mask,
+        main_window,
+        false,
+        GrabModeAsync,
+        GrabModeAsync);
+
+    // set Atoms
+    Atom utf8_string = XInternAtom(current_display, "UTF8_STRING", false);
+
+    Atom netwmcheck = XInternAtom(current_display, "_NET_SUPPORTING_WM_CHECK", false);
+    Atom netwmname = XInternAtom(current_display, "_NET_WM_NAME", false);
+
+    Window wm_check_win = XCreateSimpleWindow(current_display, main_window, 0, 0, 1, 1, 0, 0, 0);
+
+    // set name
+    XChangeProperty(current_display, wm_check_win, netwmcheck, XA_WINDOW, 32,
+                    PropModeReplace, (unsigned char *)&wm_check_win, 1);
+
+    XChangeProperty(current_display, wm_check_win, netwmname, utf8_string, 8,
+                    PropModeReplace, (unsigned char *)"idkWM", 5);
+
+    XChangeProperty(current_display, main_window, netwmcheck, XA_WINDOW, 32,
+                    PropModeReplace, (unsigned char *)&wm_check_win, 1);
 }
 
 void wm::run()
@@ -194,30 +231,11 @@ void wm::frame_window(Window window)
         GrabModeAsync,
         None,
         None);
-
-    XGrabKey(
-        current_display,
-        XKeysymToKeycode(current_display, XK_r),
-        Mod4Mask,
-        main_window,
-        false,
-        GrabModeAsync,
-        GrabModeAsync);
-
     XGrabKey(
         current_display,
         XKeysymToKeycode(current_display, XK_c),
         ShiftMask | Mod4Mask,
         window,
-        false,
-        GrabModeAsync,
-        GrabModeAsync);
-
-    XGrabKey(
-        current_display,
-        XKeysymToKeycode(current_display, XK_t),
-        ControlMask | Mod1Mask,
-        main_window,
         false,
         GrabModeAsync,
         GrabModeAsync);
