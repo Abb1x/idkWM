@@ -1,3 +1,2 @@
 xrdb ~/.Xresources
-urxvt &
 exec ~/Documents/Projects/idkWM/build/idkWM 
