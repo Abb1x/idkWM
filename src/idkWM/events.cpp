@@ -30,15 +30,27 @@ bool events::key_press(const XKeyEvent &event)
 {
     log("Key pressed: %x", event.keycode);
 
+    // super + r = opens dmenu
     if ((event.state & (ShiftMask | ControlMask | Mod1Mask | Mod4Mask)) == (Mod4Mask) && event.keycode == XKeysymToKeycode(wm::get()->get_display(), XK_r))
     {
         system("dmenu_run");
     }
-    
-    // Ignore modifiers like numlock and caps lock
+    else
+    {
+    }
+    // Shift + super + c = closes focused window
     if ((event.state & (ShiftMask | ControlMask | Mod1Mask | Mod4Mask)) == (ShiftMask | Mod4Mask) && event.keycode == XKeysymToKeycode(wm::get()->get_display(), XK_c))
     {
         XDestroyWindow(wm::get()->get_display(), event.window);
+    }
+
+    // Ctrl + alt + t = opens terminal
+    if ((event.state & (ShiftMask | ControlMask | Mod1Mask | Mod4Mask)) == (ControlMask | Mod1Mask) && event.keycode == XKeysymToKeycode(wm::get()->get_display(), XK_t))
+    {
+        if (fork() == 0)
+        {
+            system(wm::get()->terminal_emulator.c_str());
+        }
     }
     return true;
 }

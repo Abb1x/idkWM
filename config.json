@@ -1,4 +1,5 @@
 {
 "border_color": "0xdddddd",
-"border_width": "3"
+"border_width": "3",
+"terminal": "urxvt"
 }

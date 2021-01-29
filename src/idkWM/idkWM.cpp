@@ -52,7 +52,7 @@ const char *event_string_list[] = {
 };
 wm main_wm;
 unsigned long BORDER_COLOR = 0;
-int border_width = 0;
+int BORDER_WIDTH = 0;
 wm *wm::get()
 {
     return &main_wm;
@@ -79,6 +79,7 @@ void wm::init()
 
     log("idkWM initialized!");
 
+    // Parse the config
     // std::ifstream config_file((std::string)getenv("HOME") + "/.config/idkWM/config.json");
     std::ifstream config_file("../config.json");
     std::string line;
@@ -94,13 +95,12 @@ void wm::init()
     }
     json::jobject result = json::jobject::parse(final);
 
-    std::string border_color_str = result.get("border_color");
-    std::string border_width_str = result.get("border_width");
-    std::string border_color_converted = JSON_GETLONG(border_color_str);
-    std::string border_width_converted = JSON_GETLONG(border_width_str);
-    
-    BORDER_COLOR = std::stoul(border_color_converted.c_str(), nullptr, 0);
-    border_width = std::stoi(border_width_converted.c_str(),nullptr,0);
+    std::string border_color_str = JSON_GET(result.get("border_color"));
+    std::string border_width_str = JSON_GET(result.get("border_width"));
+    terminal_emulator = JSON_GET(result.get("terminal"));
+
+    BORDER_COLOR = std::stoul(border_color_str.c_str(), nullptr, 0);
+    BORDER_WIDTH = std::stoi(border_width_str.c_str(), nullptr, 0);
 }
 
 void wm::run()
@@ -146,7 +146,7 @@ void wm::frame_window(Window window)
     XWindowAttributes window_attributes;
     XGetWindowAttributes(current_display, window, &window_attributes);
 
-    Window on_top = XCreateSimpleWindow(current_display, main_window, window_attributes.x, window_attributes.y, window_attributes.width, window_attributes.height, border_width, BORDER_COLOR, BG_COLOR);
+    Window on_top = XCreateSimpleWindow(current_display, main_window, window_attributes.x, window_attributes.y, window_attributes.width, window_attributes.height, BORDER_WIDTH, BORDER_COLOR, BG_COLOR);
 
     // Select events
     XSelectInput(current_display, on_top, SubstructureRedirectMask | SubstructureNotifyMask);
@@ -180,6 +180,7 @@ void wm::frame_window(Window window)
         GrabModeAsync,
         None,
         None);
+
     XGrabButton(
         current_display,
         Button3,
@@ -195,16 +196,26 @@ void wm::frame_window(Window window)
     XGrabKey(
         current_display,
         XKeysymToKeycode(current_display, XK_r),
-        AnyModifier,
+        Mod4Mask,
         main_window,
         false,
         GrabModeAsync,
         GrabModeAsync);
+
     XGrabKey(
         current_display,
         XKeysymToKeycode(current_display, XK_c),
-        AnyModifier,
+        ShiftMask | Mod4Mask,
         window,
+        false,
+        GrabModeAsync,
+        GrabModeAsync);
+
+    XGrabKey(
+        current_display,
+        XKeysymToKeycode(current_display, XK_t),
+        ControlMask | Mod1Mask,
+        main_window,
         false,
         GrabModeAsync,
         GrabModeAsync);
@@ -214,6 +225,9 @@ void wm::handle_event(XEvent event)
 {
     switch (event.type)
     {
+    case KeyPress:
+        events::key_press(event.xkey);
+        break;
     case ConfigureRequest:
         events::create(event.xconfigurerequest);
         break;
@@ -226,9 +240,7 @@ void wm::handle_event(XEvent event)
     case ButtonPress:
         events::button_event(event.xbutton);
         break;
-    case KeyPress:
-        events::key_press(event.xkey);
-        break;
+
     case ButtonRelease:
         break;
     case MotionNotify:

@@ -11,7 +11,7 @@
 #include <unordered_map>
 namespace idkWM
 {
-#define JSON_GETLONG(x) x.substr(1, x.size() - 2);
+#define JSON_GET(x) x.substr(1, x.size() - 2);
 class wm
 {
 public:
@@ -27,6 +27,7 @@ public:
     Display *get_display() { return current_display; };
     Window get_window() { return main_window; };
     XWindowAttributes last_focused_window;
+    std::string terminal_emulator;
 
 private:
     Display *current_display;
