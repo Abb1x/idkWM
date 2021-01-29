@@ -4,6 +4,7 @@
 #include "log.hpp"
 #include <X11/Xatom.h>
 #include <X11/cursorfont.h>
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <mutex>
@@ -55,11 +56,30 @@ const char *event_string_list[] = {
 wm main_wm;
 unsigned long BORDER_COLOR = 0;
 int BORDER_WIDTH = 0;
+std::vector<std::string> border_exclude;
 wm *wm::get()
 {
     return &main_wm;
 }
+  
+std::vector<std::string> split(std::string str, std::string delim)
+{
+    std::vector<std::string> tokens;
+    size_t prev = 0, pos = 0;
+    do
+    {
+        pos = str.find(delim, prev);
+        if (pos == std::string::npos)
+            pos = str.length();
+        std::string token = str.substr(prev, pos - prev);
+        if (!token.empty())
+            tokens.push_back(token);
+        prev = pos + delim.length();
+    } while (pos < str.length() && prev < str.length());
+    return tokens;
+}
 
+  
 void wm::init()
 {
 
@@ -99,11 +119,18 @@ void wm::init()
 
     std::string border_color_str = JSON_GET(result.get("border_color"));
     std::string border_width_str = JSON_GET(result.get("border_width"));
+    std::string border_excludes = JSON_GET(result.get("border_exclude"));
     terminal_emulator = JSON_GET(result.get("terminal"));
 
     BORDER_COLOR = std::stoul(border_color_str.c_str(), nullptr, 0);
     BORDER_WIDTH = std::stoi(border_width_str.c_str(), nullptr, 0);
-
+    
+    border_exclude = split(border_excludes, ",");
+    
+    for (size_t i = 0; i < border_exclude.size(); i++)
+    {
+      border_exclude[i] = border_exclude[i].substr(1, border_exclude[i].size() - 2);
+    }
     // Set keybindings
     XGrabKey(
         current_display,
@@ -185,7 +212,20 @@ void wm::frame_window(Window window)
     XWindowAttributes window_attributes;
     XGetWindowAttributes(current_display, window, &window_attributes);
 
-    Window on_top = XCreateSimpleWindow(current_display, main_window, window_attributes.x, window_attributes.y, window_attributes.width, window_attributes.height, BORDER_WIDTH, BORDER_COLOR, BG_COLOR);
+    // Get window name
+    char *name;
+    XFetchName(current_display, window, &name);
+    if(!name)
+      name = (char*)"Unknown app";
+    Window on_top;
+    if (std::find(border_exclude.begin(), border_exclude.end(), (std::string)name) == border_exclude.end())
+    {
+        on_top = XCreateSimpleWindow(current_display, main_window, window_attributes.x, window_attributes.y, window_attributes.width, window_attributes.height, BORDER_WIDTH, BORDER_COLOR, BG_COLOR);
+    }
+    if (std::find(border_exclude.begin(), border_exclude.end(), (std::string)name) != border_exclude.end())
+    {
+        on_top = XCreateSimpleWindow(current_display, main_window, window_attributes.x, window_attributes.y, window_attributes.width, window_attributes.height, 0, BORDER_COLOR, BG_COLOR);
+    }
 
     // Select events
     XSelectInput(current_display, on_top, SubstructureRedirectMask | SubstructureNotifyMask);
@@ -219,6 +259,7 @@ void wm::frame_window(Window window)
         GrabModeAsync,
         None,
         None);
+
     XGrabButton(
         current_display,
         Button3,
@@ -230,6 +271,7 @@ void wm::frame_window(Window window)
         GrabModeAsync,
         None,
         None);
+
     XGrabKey(
         current_display,
         XKeysymToKeycode(current_display, XK_c),
