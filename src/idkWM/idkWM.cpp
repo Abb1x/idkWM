@@ -2,6 +2,8 @@
 #include "../lib/json.h"
 #include "events.hpp"
 #include "log.hpp"
+#include <X11/Xatom.h>
+#include <X11/cursorfont.h>
 #include <fstream>
 #include <iostream>
 #include <mutex>
@@ -63,7 +65,7 @@ void wm::init()
 
     log("Initializing idkWM...");
     current_display = XOpenDisplay(0);
-
+    XCreateFontCursor(current_display, XC_arrow);
     if (!current_display)
     {
         log("ERROR! Can't open display");
