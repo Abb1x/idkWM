@@ -219,7 +219,6 @@ void wm::frame_window(Window window)
         GrabModeAsync,
         None,
         None);
-
     XGrabButton(
         current_display,
         Button3,
@@ -260,7 +259,6 @@ void wm::handle_event(XEvent event)
     case ButtonPress:
         events::button_event(event.xbutton);
         break;
-
     case ButtonRelease:
         events::button_release(event.xbutton);
         break;

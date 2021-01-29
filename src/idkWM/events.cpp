@@ -1,5 +1,5 @@
 #include "events.hpp"
-
+#include <X11/Xatom.h>
 namespace idkWM
 {
 position last_mouse_click;
@@ -54,19 +54,29 @@ bool events::key_press(const XKeyEvent &event)
     }
     return true;
 }
-
+Window focused_win;
 bool events::button_event(const XButtonEvent &event)
 {
     const Window target = wm::get()->frame_list[event.window].frame;
+    Atom focused = XInternAtom(wm::get()->get_display(), "_NET_ACTIVE_WINDOW", False);
 
     last_mouse_click = {event.x_root, event.y_root};
-
     XRaiseWindow(wm::get()->get_display(), target);
 
+    if (focused_win != event.window || (event.button != Button4 && event.button != Button5))
+    {
+        XSetInputFocus(wm::get()->get_display(), wm::get()->get_window(), RevertToPointerRoot, CurrentTime);
+        XDeleteProperty(wm::get()->get_display(), wm::get()->get_window(), focused);
+	
+        // Focus
+        XSetInputFocus(wm::get()->get_display(), event.window, RevertToPointerRoot, CurrentTime);
+        XChangeProperty(wm::get()->get_display(), wm::get()->get_window(), focused, XA_WINDOW, 32, PropModeReplace, (unsigned char *)&(event.window), 1);
+    }
     XGetWindowAttributes(wm::get()->get_display(), target, &wm::get()->last_focused_window);
+    focused_win = event.window;
+
     return true;
 }
-
 bool events::button_release(const XButtonEvent &event) { return true; };
 bool events::motion(const XMotionEvent &event)
 {

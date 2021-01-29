@@ -28,6 +28,7 @@ public:
     Window get_window() { return main_window; };
     XWindowAttributes last_focused_window;
     std::string terminal_emulator;
+    int BORDER_WIDTH;
 
 private:
     Display *current_display;
