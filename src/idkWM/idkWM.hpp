@@ -9,9 +9,15 @@
 #include <X11/extensions/shape.h>
 #include <X11/keysym.h>
 #include <unordered_map>
+#include <X11/Xatom.h>
+#include <X11/cursorfont.h>
+#include <algorithm>
+#include <fstream>
+#include <iostream>
+#include <mutex>
+#include <cstdlib>
 namespace idkWM
 {
-#define JSON_GET(x) x.substr(1, x.size() - 2);
 class wm
 {
 public:

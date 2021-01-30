@@ -1,13 +1,7 @@
 #include "idkWM.hpp"
-#include "../lib/json.h"
 #include "events.hpp"
 #include "log.hpp"
-#include <X11/Xatom.h>
-#include <X11/cursorfont.h>
-#include <algorithm>
-#include <fstream>
-#include <iostream>
-#include <mutex>
+#include "config_parser.hpp"
 namespace idkWM
 {
 std::mutex main_mutex;
@@ -57,27 +51,13 @@ wm main_wm;
 unsigned long BORDER_COLOR = 0;
 int BORDER_WIDTH = 0;
 std::vector<std::string> border_exclude;
+  
 wm *wm::get()
 {
     return &main_wm;
 }
   
-std::vector<std::string> split(std::string str, std::string delim)
-{
-    std::vector<std::string> tokens;
-    size_t prev = 0, pos = 0;
-    do
-    {
-        pos = str.find(delim, prev);
-        if (pos == std::string::npos)
-            pos = str.length();
-        std::string token = str.substr(prev, pos - prev);
-        if (!token.empty())
-            tokens.push_back(token);
-        prev = pos + delim.length();
-    } while (pos < str.length() && prev < str.length());
-    return tokens;
-}
+
 
   
 void wm::init()
@@ -101,36 +81,14 @@ void wm::init()
 
     log("idkWM initialized!");
 
-    // Parse the config
-    std::ifstream config_file((std::string)getenv("HOME") + "/.config/idkWM/config.json");
-    //std::ifstream config_file("../config.json");
-    std::string line;
-    std::string final;
+    terminal_emulator = ConfigParser::get()->get_string("terminal");
 
-    if (config_file.is_open())
-    {
-        while (getline(config_file, line))
-        {
-            final += line;
-        }
-        config_file.close();
-    }
-    json::jobject result = json::jobject::parse(final);
-
-    std::string border_color_str = JSON_GET(result.get("border_color"));
-    std::string border_width_str = JSON_GET(result.get("border_width"));
-    std::string border_excludes = JSON_GET(result.get("border_exclude"));
-    terminal_emulator = JSON_GET(result.get("terminal"));
-
-    BORDER_COLOR = std::stoul(border_color_str.c_str(), nullptr, 0);
-    BORDER_WIDTH = std::stoi(border_width_str.c_str(), nullptr, 0);
+    log("done");
+    BORDER_COLOR = std::stoul(ConfigParser::get()->get_string("border_color").c_str(), nullptr, 0);
     
-    border_exclude = split(border_excludes, ",");
+    BORDER_WIDTH = std::stoi(ConfigParser::get()->get_string("border_width").c_str(), nullptr, 0);
     
-    for (size_t i = 0; i < border_exclude.size(); i++)
-    {
-      border_exclude[i] = border_exclude[i].substr(1, border_exclude[i].size() - 2);
-    }
+    border_exclude = ConfigParser::get()->get_json_array("border_exclude");
     // Set keybindings
     XGrabKey(
         current_display,

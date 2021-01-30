@@ -28,5 +28,11 @@
     "command": "ccache c++ -IidkWM.p -I. -I../src -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -g -MD -MQ idkWM.p/.._lib_json.cpp.o -MF idkWM.p/.._lib_json.cpp.o.d -o idkWM.p/.._lib_json.cpp.o -c ../lib/json.cpp",
     "file": "../lib/json.cpp",
     "output": "idkWM.p/.._lib_json.cpp.o"
+  },
+  {
+    "directory": "/home/abbix/Documents/Projects/idkWM/build",
+    "command": "ccache c++ -IidkWM.p -I. -I../src -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -g -MD -MQ idkWM.p/idkWM_config_parser.cpp.o -MF idkWM.p/idkWM_config_parser.cpp.o.d -o idkWM.p/idkWM_config_parser.cpp.o -c ../src/idkWM/config_parser.cpp",
+    "file": "../src/idkWM/config_parser.cpp",
+    "output": "idkWM.p/idkWM_config_parser.cpp.o"
   }
 ]
