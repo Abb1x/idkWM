@@ -33,24 +33,25 @@ bool events::key_press(const XKeyEvent &event)
     // super + r = opens dmenu
     if ((event.state & (ShiftMask | ControlMask | Mod1Mask | Mod4Mask)) == (Mod4Mask) && event.keycode == XKeysymToKeycode(wm::get()->get_display(), XK_r))
     {
-        system("dmenu_run");
+        wm::get()->spawn("dmenu_run");
     }
     else
     {
     }
-    // Shift + super + c = closes focused window
+    // Super + c = closes focused window
     if ((event.state & (ShiftMask | ControlMask | Mod1Mask | Mod4Mask)) == (ShiftMask | Mod4Mask) && event.keycode == XKeysymToKeycode(wm::get()->get_display(), XK_c))
     {
-        XDestroyWindow(wm::get()->get_display(), event.window);
+        XGrabServer(wm::get()->get_display());
+        XSetCloseDownMode(wm::get()->get_display(), DestroyAll);
+        XKillClient(wm::get()->get_display(), event.window);
+        XSync(wm::get()->get_display(), False);
+        XUngrabServer(wm::get()->get_display());
     }
 
     // Ctrl + alt + t = opens terminal
     if ((event.state & (ShiftMask | ControlMask | Mod1Mask | Mod4Mask)) == (ControlMask | Mod1Mask) && event.keycode == XKeysymToKeycode(wm::get()->get_display(), XK_t))
     {
-        if (fork() == 0)
-        {
-            system(wm::get()->terminal_emulator.c_str());
-        }
+        wm::get()->spawn(wm::get()->terminal_emulator);
     }
     return true;
 }
@@ -67,7 +68,7 @@ bool events::button_event(const XButtonEvent &event)
     {
         XSetInputFocus(wm::get()->get_display(), wm::get()->get_window(), RevertToPointerRoot, CurrentTime);
         XDeleteProperty(wm::get()->get_display(), wm::get()->get_window(), focused);
-	
+
         // Focus
         XSetInputFocus(wm::get()->get_display(), event.window, RevertToPointerRoot, CurrentTime);
         XChangeProperty(wm::get()->get_display(), wm::get()->get_window(), focused, XA_WINDOW, 32, PropModeReplace, (unsigned char *)&(event.window), 1);

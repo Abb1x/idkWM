@@ -1,7 +1,7 @@
 #include "idkWM.hpp"
+#include "config_parser.hpp"
 #include "events.hpp"
 #include "log.hpp"
-#include "config_parser.hpp"
 namespace idkWM
 {
 std::mutex main_mutex;
@@ -51,21 +51,20 @@ wm main_wm;
 unsigned long BORDER_COLOR = 0;
 int BORDER_WIDTH = 0;
 std::vector<std::string> border_exclude;
-  
+
 wm *wm::get()
 {
     return &main_wm;
 }
-  
 
-
-  
 void wm::init()
 {
 
     log("Initializing idkWM...");
+
     current_display = XOpenDisplay(0);
     XCreateFontCursor(current_display, XC_arrow);
+
     if (!current_display)
     {
         log("ERROR! Can't open display");
@@ -83,12 +82,12 @@ void wm::init()
 
     terminal_emulator = ConfigParser::get()->get_string("terminal");
 
-    log("done");
     BORDER_COLOR = std::stoul(ConfigParser::get()->get_string("border_color").c_str(), nullptr, 0);
-    
+
     BORDER_WIDTH = std::stoi(ConfigParser::get()->get_string("border_width").c_str(), nullptr, 0);
-    
+
     border_exclude = ConfigParser::get()->get_json_array("border_exclude");
+
     // Set keybindings
     XGrabKey(
         current_display,
@@ -146,11 +145,37 @@ void wm::run()
         XNextEvent(current_display, &current_event);
 
         handle_event(current_event);
-        log("Receiving event with type: %s", event_string_list[current_event.type]);
-
+	
         main_mutex.unlock();
         usleep(10);
     }
+}
+char *convert_vector_to_char_array(const std::string &s)
+{
+    char *pc = new char[s.size() + 1];
+    std::strcpy(pc, s.c_str());
+    return pc;
+}
+
+void wm::spawn(std::string command)
+{
+    std::vector<std::string> command_array = ConfigParser::get()->split(command, " ");
+    
+    const char *command_char[command_array.size() + 1];
+    
+    for (size_t i = 0; i < command_array.size(); i++)
+    {
+        command_char[i] = command_array[i].c_str();
+    }
+    command_char[command_array.size()] = NULL;
+
+    if (fork() == 0)
+    {
+        if (current_display)
+            close(ConnectionNumber(current_display));
+        setsid();
+        execvp(command_char[0],(char **)command_char);
+	}
 }
 void wm::exit()
 {
@@ -173,8 +198,9 @@ void wm::frame_window(Window window)
     // Get window name
     char *name;
     XFetchName(current_display, window, &name);
-    if(!name)
-      name = (char*)"Unknown app";
+    if (!name)
+        name = (char *)"Unknown app";
+
     Window on_top;
     if (std::find(border_exclude.begin(), border_exclude.end(), (std::string)name) == border_exclude.end())
     {
@@ -238,6 +264,7 @@ void wm::frame_window(Window window)
         false,
         GrabModeAsync,
         GrabModeAsync);
+    log("Framed window: %s", name);
 }
 
 void wm::handle_event(XEvent event)

@@ -8,7 +8,7 @@ ConfigParser *ConfigParser::get()
 {
     return &config_parser;
 }
-std::vector<std::string> split(std::string str, std::string delim)
+std::vector<std::string> ConfigParser::split(std::string str, std::string delim)
 {
     std::vector<std::string> tokens;
     size_t prev = 0, pos = 0;
@@ -41,7 +41,6 @@ std::vector<std::string> ConfigParser::get_json_array(std::string key)
         }
         config_file.close();
     }
-    log(final.c_str());
     json::jobject result = json::jobject::parse(final);
 
     std::string json_key = JSON_GET(result.get(key));

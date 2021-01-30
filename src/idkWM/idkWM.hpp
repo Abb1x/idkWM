@@ -2,20 +2,20 @@
 #define IDKWM_H
 #include "types.hpp"
 #include <X11/X.h>
+#include <X11/Xatom.h>
 #include <X11/Xlib.h>
 #include <X11/Xos.h>
 #include <X11/Xresource.h>
 #include <X11/Xutil.h>
+#include <X11/cursorfont.h>
 #include <X11/extensions/shape.h>
 #include <X11/keysym.h>
-#include <unordered_map>
-#include <X11/Xatom.h>
-#include <X11/cursorfont.h>
 #include <algorithm>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <mutex>
-#include <cstdlib>
+#include <unordered_map>
 namespace idkWM
 {
 class wm
@@ -28,7 +28,7 @@ public:
     void run();
     void frame_window(Window window);
     void handle_event(XEvent event);
-
+    void spawn(std::string command);
     int wm_detected(Display *current_display, XErrorEvent *error);
     Display *get_display() { return current_display; };
     Window get_window() { return main_window; };

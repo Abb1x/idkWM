@@ -12,8 +12,8 @@ class ConfigParser
 public:
     std::vector<std::string> get_json_array(std::string key);
     std::string get_string(std::string key);
+    std::vector<std::string> split(std::string str, std::string delim);
     static ConfigParser *get();
-
 };
 
 } // namespace idkWM
