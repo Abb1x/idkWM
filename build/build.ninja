@@ -73,7 +73,12 @@ build idkWM.p/idkWM_config_parser.cpp.o: cpp_COMPILER ../src/idkWM/config_parser
  DEPFILE_UNQUOTED = idkWM.p/idkWM_config_parser.cpp.o.d
  ARGS = -IidkWM.p -I. -I../src -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -g
 
-build idkWM: cpp_LINKER idkWM.p/main.cpp.o idkWM.p/idkWM_idkWM.cpp.o idkWM.p/idkWM_events.cpp.o idkWM.p/idkWM_log.cpp.o idkWM.p/.._lib_json.cpp.o idkWM.p/idkWM_config_parser.cpp.o | /usr/lib64/libX11.so.6.4.0
+build idkWM.p/idkWM_tiling.cpp.o: cpp_COMPILER ../src/idkWM/tiling.cpp
+ DEPFILE = idkWM.p/idkWM_tiling.cpp.o.d
+ DEPFILE_UNQUOTED = idkWM.p/idkWM_tiling.cpp.o.d
+ ARGS = -IidkWM.p -I. -I../src -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -g
+
+build idkWM: cpp_LINKER idkWM.p/main.cpp.o idkWM.p/idkWM_idkWM.cpp.o idkWM.p/idkWM_events.cpp.o idkWM.p/idkWM_log.cpp.o idkWM.p/.._lib_json.cpp.o idkWM.p/idkWM_config_parser.cpp.o idkWM.p/idkWM_tiling.cpp.o | /usr/lib64/libX11.so.6.4.0
  LINK_ARGS = -Wl,--as-needed -Wl,--no-undefined -Wl,--start-group -lX11 -Wl,--end-group
 
 # Test rules

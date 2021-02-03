@@ -1,4 +1,4 @@
-Build started at 2021-01-29T18:50:59.665455
+Build started at 2021-01-31T10:23:53.898629
 Main binary: /usr/bin/python3.8
 Build Options: -Dbackend=ninja
 Python system: Linux
@@ -27,8 +27,8 @@ Build targets in project: 2
 
 Found ninja-1.10.1 at /usr/bin/ninja
 Running compile:
-Working directory:  /home/abbix/Documents/Projects/idkWM/build/meson-private/tmpxlyq4yln
-Command line:  ccache c++ /home/abbix/Documents/Projects/idkWM/build/meson-private/tmpxlyq4yln/testfile.cpp -o /home/abbix/Documents/Projects/idkWM/build/meson-private/tmpxlyq4yln/output.obj -pipe -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive --print-search-dirs 
+Working directory:  /home/abbix/Documents/Projects/idkWM/build/meson-private/tmply07dbzj
+Command line:  ccache c++ /home/abbix/Documents/Projects/idkWM/build/meson-private/tmply07dbzj/testfile.cpp -o /home/abbix/Documents/Projects/idkWM/build/meson-private/tmply07dbzj/output.obj -pipe -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive --print-search-dirs 
 
 Code:
  

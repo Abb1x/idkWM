@@ -6,7 +6,8 @@ cpp_files = [
 'idkWM/events.cpp',
 'idkWM/log.cpp',
 '../lib/json.cpp',
-'idkWM/config_parser.cpp'
+'idkWM/config_parser.cpp',
+'idkWM/tiling.cpp'
 
 ]
 run_target('run',

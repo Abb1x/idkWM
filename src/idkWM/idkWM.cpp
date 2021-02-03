@@ -145,7 +145,7 @@ void wm::run()
         XNextEvent(current_display, &current_event);
 
         handle_event(current_event);
-	
+
         main_mutex.unlock();
         usleep(10);
     }
@@ -160,9 +160,9 @@ char *convert_vector_to_char_array(const std::string &s)
 void wm::spawn(std::string command)
 {
     std::vector<std::string> command_array = ConfigParser::get()->split(command, " ");
-    
+
     const char *command_char[command_array.size() + 1];
-    
+
     for (size_t i = 0; i < command_array.size(); i++)
     {
         command_char[i] = command_array[i].c_str();
@@ -174,8 +174,8 @@ void wm::spawn(std::string command)
         if (current_display)
             close(ConnectionNumber(current_display));
         setsid();
-        execvp(command_char[0],(char **)command_char);
-	}
+        execvp(command_char[0], (char **)command_char);
+    }
 }
 void wm::exit()
 {
@@ -202,6 +202,7 @@ void wm::frame_window(Window window)
         name = (char *)"Unknown app";
 
     Window on_top;
+
     if (std::find(border_exclude.begin(), border_exclude.end(), (std::string)name) == border_exclude.end())
     {
         on_top = XCreateSimpleWindow(current_display, main_window, window_attributes.x, window_attributes.y, window_attributes.width, window_attributes.height, BORDER_WIDTH, BORDER_COLOR, BG_COLOR);
@@ -264,6 +265,8 @@ void wm::frame_window(Window window)
         false,
         GrabModeAsync,
         GrabModeAsync);
+    
+
     log("Framed window: %s", name);
 }
 

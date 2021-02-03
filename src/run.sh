@@ -5,5 +5,5 @@ xinit ../.xinit_test -- \
     "$XEPHYR" \
         :100 \
         -ac \
-        -screen 1200x700
+        -screen 1280x720
 

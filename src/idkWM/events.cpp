@@ -1,5 +1,7 @@
 #include "events.hpp"
+#include "tiling.hpp"
 #include <X11/Xatom.h>
+#include <X11/Xlib.h>
 namespace idkWM
 {
 position last_mouse_click;
@@ -87,13 +89,13 @@ bool events::motion(const XMotionEvent &event)
     final.y -= last_mouse_click.y;
 
     const Window frame = wm::get()->frame_list[event.window].frame;
-    if ((event.state & (ShiftMask | ControlMask | Mod1Mask | Mod4Mask)) == (Mod4Mask) && event.state & Button1Mask)
+    if ((event.state & (ShiftMask | ControlMask | Mod1Mask | Mod4Mask)) == (Mod4Mask) && event.state & Button1Mask && wm::get()->frame_list[event.window].movable)
     {
 
         XMoveWindow(wm::get()->get_display(), frame, final.x, final.y);
     }
 
-    else if ((event.state & (ShiftMask | ControlMask | Mod1Mask | Mod4Mask)) == (Mod4Mask) && event.state & Button3Mask)
+    else if ((event.state & (ShiftMask | ControlMask | Mod1Mask | Mod4Mask)) == (Mod4Mask) && event.state & Button3Mask && wm::get()->frame_list[event.window].resizable)
     {
 
         position resized = {
@@ -112,7 +114,16 @@ bool events::motion(const XMotionEvent &event)
 bool events::map(const XMapRequestEvent event)
 {
 
+
+    if (tiling::get()->enabled)
+    {
+        wm::get()->frame_list[event.window].movable = false;
+        wm::get()->frame_list[event.window].resizable = false;
+        tiling::get()->tile(event);
+    }
+    
     wm::get()->frame_window(event.window);
+
 
     XMapWindow(wm::get()->get_display(), event.window);
 
