@@ -87,12 +87,12 @@ void tiling::tile(const XMapRequestEvent event)
                     log("tiling %s with i %d", name, i - 1);
 
                     XWindowAttributes nattr;
-                    XGetWindowAttributes(wm::get()->get_display(), window_list[i], &nattr);
+                    XGetWindowAttributes(wm::get()->get_display(), window_list[i - 1], &nattr);
 
                     XResizeWindow(wm::get()->get_display(), window_list[i], nattr.width, nattr.height * 2);
                     XResizeWindow(wm::get()->get_display(), wm::get()->frame_list[window_list[i + 1]].frame, nattr.width, nattr.height * 2);
 
-                    XMoveWindow(wm::get()->get_display(), window_list[i], nattr.x, nattr.height - nattr.y);
+                    XMoveWindow(wm::get()->get_display(), window_list[i], nattr.x, nattr.height);
                     XMoveWindow(wm::get()->get_display(), frame, nattr.x, nattr.height - nattr.y);
                 }
             }

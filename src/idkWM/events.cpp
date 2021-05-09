@@ -114,7 +114,7 @@ bool events::motion(const XMotionEvent &event)
 bool events::map(const XMapRequestEvent event)
 {
 
-
+tiling::get()->enabled = true;
     if (tiling::get()->enabled)
     {
         wm::get()->frame_list[event.window].movable = false;

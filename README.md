@@ -1,6 +1,8 @@
 # idkWM
 A simple and configurable X window manager written in C++
 
+## Screenshots
+<img src="https://media.discordapp.net/attachments/635625917623828520/841073631533858856/solarizedidkwm.png">
 ## Configuration
 
 The window manager is configured in json, please look at the sample config.
